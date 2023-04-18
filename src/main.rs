@@ -1,5 +1,5 @@
 use std::net::TcpListener;
-use crate::connections::handlers;
+use crate::connections::requests;
 
 mod connections;
 
@@ -8,6 +8,6 @@ fn main() {
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
-        handlers::handle_connection(stream);
+        requests::handle_request(stream);
     }
 }
