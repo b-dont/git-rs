@@ -1,21 +1,31 @@
-use std::{
-    env,
-    net::TcpListener
-};
+use std::net::TcpListener;
+use anyhow::Error;
 use crate::connections::requests;
+
+use dotenv::{
+    dotenv,
+    var
+};
 
 mod connections;
 
-fn main() -> Result {
-    let host = env::var("HOST");
-    let port = env::var("PORT");
+fn main() -> Result<(), Error> {
+    // Env variables stored in .env at project root
+    dotenv().ok();
+    let host = "HOST";
+    let port = "PORT";
+    
+    let listen_location = vec![
+        var(host)?,
+        var(port)?,
+    ];
 
-    let listener = TcpListener::bind(":".join(&[host, port]))?;
+    // Listener object bound to port defined in .env
+    let listener = TcpListener::bind(listen_location.join(":"))?;
 
+    // Main program loop handling incoming TCP reqeusts
     for stream in listener.incoming() {
-        let stream = stream.unwrap();
-        requests::handle_request(stream);
+        requests::handle_request(stream?);
     }
-
     Ok(())
 }
