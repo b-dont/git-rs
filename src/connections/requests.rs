@@ -3,6 +3,7 @@ use std::{
     io::{prelude::*, BufReader},
     net::TcpStream,
 };
+use anyhow::Error;
 
 pub enum Requests {
     GET,
@@ -16,11 +17,12 @@ pub enum Requests {
     PATCH,
 }
 
-pub fn handle_request(mut stream: TcpStream) {
+pub fn handle_request(mut stream: TcpStream) -> Result<(), Error> {
     let buf_reader = BufReader::new(&mut stream);
-    let request_line = buf_reader.lines().next().unwrap().unwrap();
+    let request_line = buf_reader.lines().next();
 
     match request_line {
+        Some() => 
     }
     
     // if request_line == "GET / HTTP/1.1" {
