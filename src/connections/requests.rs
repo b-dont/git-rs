@@ -1,20 +1,28 @@
 use std::{
     fs,
+    fmt,
     io::{prelude::*, BufReader},
     net::TcpStream,
 };
 use anyhow::Error;
 
-pub enum Requests {
-    GET,
-    HEAD,
-    POST,
-    PUT,
-    DELETE,
-    CONNECT,
-    OPTIONS,
-    TRACE,
-    PATCH,
+#[derive(Debug)]
+pub enum Request {
+    Get,
+    Head,
+    Post,
+    Put,
+    Delete,
+    Connect,
+    Options,
+    Trace,
+    Patch,
+}
+
+impl fmt::Display for Request {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
 }
 
 pub fn handle_request(mut stream: TcpStream) -> Result<(), Error> {
@@ -22,7 +30,8 @@ pub fn handle_request(mut stream: TcpStream) -> Result<(), Error> {
     let request_line = buf_reader.lines().next();
 
     match request_line {
-        Some() => 
+        Request::Get => ,
+        _ => ,
     }
     
     // if request_line == "GET / HTTP/1.1" {
