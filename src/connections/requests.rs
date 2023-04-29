@@ -5,35 +5,12 @@ use std::{
     net::TcpStream,
 };
 use anyhow::Error;
-
-#[derive(Debug)]
-pub enum Request {
-    Get,
-    Head,
-    Post,
-    Put,
-    Delete,
-    Connect,
-    Options,
-    Trace,
-    Patch,
-}
-
-impl fmt::Display for Request {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
-    }
-}
+use http::Response;
 
 pub fn handle_request(mut stream: TcpStream) -> Result<(), Error> {
     let buf_reader = BufReader::new(&mut stream);
     let request_line = buf_reader.lines().next();
 
-    match request_line {
-        Request::Get => ,
-        _ => ,
-    }
-    
     // if request_line == "GET / HTTP/1.1" {
     //     let status_line = "HTTP/1.1 200 OK";
     //     let contents = fs::read_to_string("templates/index.html").unwrap();
@@ -53,4 +30,5 @@ pub fn handle_request(mut stream: TcpStream) -> Result<(), Error> {
     //     );
     //     stream.write_all(response.as_bytes()).unwrap();
     // }
+    Ok(())
 }
