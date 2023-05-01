@@ -14,7 +14,7 @@ fn main() -> Result<(), Error> {
     dotenv().ok();
     let host = "HOST";
     let port = "PORT";
-    
+
     let listen_location = vec![
         var(host)?,
         var(port)?,
@@ -25,7 +25,7 @@ fn main() -> Result<(), Error> {
 
     // Main program loop handling incoming TCP reqeusts
     for stream in listener.incoming() {
-        requests::handle_request(stream?);
+        requests::handle_request(stream?)?;
     }
     Ok(())
 }
