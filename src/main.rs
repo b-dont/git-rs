@@ -10,7 +10,6 @@ use dotenv::{
 mod connections;
 
 fn main() -> Result<(), Error> {
-    // Env variables stored in .env at project root
     dotenv().ok();
     let host = "HOST";
     let port = "PORT";
@@ -25,7 +24,8 @@ fn main() -> Result<(), Error> {
 
     // Main program loop handling incoming TCP reqeusts
     for stream in listener.incoming() {
-        requests::handle_request(stream?)?;
+        let stream = stream?;
+        requests::handle_request::<T>(stream); 
     }
     Ok(())
 }
