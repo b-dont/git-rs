@@ -1,12 +1,15 @@
-use std::net::TcpStream;
+use std::{
+    net::TcpStream,
+    io::{prelude::*, BufReader}
+};
 
-use http::Request;
-use serde::ser;
+pub fn handle_request(mut stream: TcpStream) -> Vec<String> {
+    let buf_reader = BufReader::new(&mut stream);
+    let http_request: Vec<_> = buf_reader
+        .lines()
+        .map(|result| result.unwrap())
+        .take_while(|line| !line.is_empty())
+        .collect();
 
-pub fn handle_request<T>(req: TcpStream) -> serde_json::Result<Request<Vec<u8>>>
-    where T: ser::Serialize,
-{
-    let (parts, body) = req.();
-    let body = serde_json::to_vec(&body)?;
-    Ok(Request::from_parts(parts, body))
+    return http_request
 }
