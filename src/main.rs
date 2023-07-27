@@ -24,8 +24,8 @@ fn main() -> Result<(), Error> {
 
     // Main program loop handling incoming TCP reqeusts
     for stream in listener.incoming() {
-        let stream = stream?;
-        println!("Request: {:#?}", handle_request(stream)); 
+        println!("Request: {:#?}", handle_request(stream?)); 
     }
+
     Ok(())
 }
