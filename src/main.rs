@@ -1,6 +1,10 @@
 use std::net::TcpListener;
 use anyhow::Error;
-use crate::connections::requests::handle_request;
+use crate::connections::requests::{
+    build_req,
+    print_req,
+    serialize_req
+};
 
 use dotenv::{
     dotenv,
@@ -24,7 +28,7 @@ fn main() -> Result<(), Error> {
 
     // Main program loop handling incoming TCP reqeusts
     for stream in listener.incoming() {
-        println!("Request: {:#?}", handle_request(stream?)); 
+        print_req(serialize_req(build_req(stream?)))
     }
 
     Ok(())
